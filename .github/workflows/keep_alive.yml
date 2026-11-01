@@ -1,0 +1,16 @@
+name: Keep Supabase Awake
+
+on:
+  schedule:
+    - cron: '0 0 */4 * *' # ప్రతి 4 రోజులకు ఒకసారి ఆటోమేటిక్‌గా అర్ధరాత్రి రన్ అవుతుంది
+  workflow_dispatch: # గిట్‌హబ్ డ్యాష్‌బోర్డ్ నుండి మీరే మాన్యువల్‌గా రన్ చేసుకోవడానికి
+
+jobs:
+  ping_supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Keep-Alive Ping to Supabase Database
+        run: |
+          curl -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/syllabus_materials?limit=1" \
+          -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
